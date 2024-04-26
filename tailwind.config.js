@@ -5,6 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      gentiumBasic: "Gentium Basic"
+    },
+    colors: {
+      main: "#0bd1e3"
+    },
     extend: {},
   },
   plugins: [],

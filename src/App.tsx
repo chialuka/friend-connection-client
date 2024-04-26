@@ -1,10 +1,11 @@
-function App() {
+import LandingPage from "./pages/LandingPage";
 
-  return (
-    <h1 className='text-2xl'>
-      Friends Connect
-    </h1>
-  )
+function App() {
+	return (
+		<section className="">
+			<LandingPage />
+		</section>
+	);
 }
 
-export default App
+export default App;
