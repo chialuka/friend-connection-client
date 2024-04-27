@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addNewUser } from "../features/auth/authSlice";
 import { z } from "zod";
 
-const LandingPage = () => {
+interface LandingProps {
+  ref: React.Ref<HTMLLabelElement>;
+}
+
+const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(function LandingPage(props, ref) {
 	const user = useAppSelector((state) => state.user.user);
 	const dispatch = useAppDispatch();
 	const [name, setName] = useState("");
@@ -19,8 +23,8 @@ const LandingPage = () => {
 		console.log(result, "the result");
 	};
 	return (
-		<section className="flex flex-col lg:flex-row lg:gap-10 lg:justify-between m-5 sm:m-10 lg:mx-20">
-			<section className="flex flex-col justify-evenly lg:w-1/2 py-20 gap-5 md:gap-10">
+		<section className="flex flex-col lg:flex-row lg:gap-10 lg:justify-between m-5 md:m-10 lg:mx-20">
+			<section className="flex flex-col justify-evenly lg:w-1/2 py-10 gap-5 md:gap-10">
 				<h1 className="font-gentiumBasic text-5xl font-extrabold text-main">
 					Friends Connect
 				</h1>
@@ -32,7 +36,7 @@ const LandingPage = () => {
 					Keep your friends in the loop by sharing status updates that they can
 					view in real time!{" "}
 				</p>
-				<label className="text-2xl">
+				<label ref={ref} className="text-2xl">
 					Enter your email address or username to get started!
 				</label>
 				<input
@@ -62,6 +66,6 @@ const LandingPage = () => {
 			</section>
 		</section>
 	);
-};
+});
 
 export default LandingPage;
