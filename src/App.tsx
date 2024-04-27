@@ -18,6 +18,7 @@ const router = createBrowserRouter([
   {
     path: "/members",
     element: <FindMembers />,
+    errorElement: <ErrorPage />,
   }
 ])
 

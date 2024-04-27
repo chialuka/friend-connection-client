@@ -8,10 +8,11 @@ export default {
     fontFamily: {
       gentiumBasic: "Gentium Basic"
     },
-    colors: {
-      main: "#0bd1e3"
+    extend: {
+      colors: {
+        primary: "#0866ff"
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
