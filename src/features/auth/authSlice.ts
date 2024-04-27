@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { User } from "../../types/User";
 
 const registeredUser = () => {
 	try {
-		const user = JSON.parse(localStorage.getItem("user") || "");
+		const user: User = JSON.parse(localStorage.getItem("user") || "");
 		return user;
 	} catch (error) {
 		return [];

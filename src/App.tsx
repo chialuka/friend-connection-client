@@ -6,6 +6,7 @@ import {
 import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
 import ErrorPage from "./components/ErrorPage";
+import FindMembers from "./pages/FindMembers";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingPage />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/members",
+    element: <FindMembers />,
   }
 ])
 
