@@ -1,7 +1,23 @@
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { addNewUser } from "../features/auth/authSlice";
+import { z } from "zod";
 
 const LandingPage = () => {
+	const user = useAppSelector((state) => state.user.user);
+	const dispatch = useAppDispatch();
 	const [name, setName] = useState("");
+
+	const saveUser = async () => {
+		if (user.length) {
+			return;
+		}
+		const { success } = z.string().email().safeParse(name);
+		const result = await dispatch(
+			addNewUser({ [success ? "email" : "username"]: name })
+		);
+		console.log(result, "the result");
+	};
 	return (
 		<section className="flex flex-col lg:flex-row lg:gap-10 lg:justify-between m-5 sm:m-10 lg:mx-20">
 			<section className="flex flex-col justify-evenly lg:w-1/2 py-20 gap-5 md:gap-10">
@@ -28,7 +44,10 @@ const LandingPage = () => {
 					className="outline-main rounded-md p-5 border-2 border-main"
 				/>
 				<div className="flex justify-center">
-					<button className="bg-main w-[200px] p-5 text-white font-bold rounded-md">
+					<button
+						className="bg-main w-[200px] p-5 text-white font-bold rounded-md"
+						onClick={saveUser}
+					>
 						Get Started!
 					</button>
 				</div>
