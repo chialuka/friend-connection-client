@@ -1,6 +1,20 @@
 import { useRef } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
+import ErrorPage from "./components/ErrorPage";
+
+const router = createBrowserRouter([
+  {
+    id: "root",
+    path: "/",
+    element: <LandingPage />,
+    errorElement: <ErrorPage />,
+  }
+])
 
 function App() {
   const loginRef = useRef<HTMLLabelElement>(null);
@@ -13,7 +27,7 @@ function App() {
 	return (
 		<section>
       <Header scrollToLogin={scrollToLogin} />
-			<LandingPage ref={loginRef} />
+			<RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
 		</section>
 	);
 }
