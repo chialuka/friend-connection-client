@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Members } from "../../types/Member";
 
+interface MembersStateParam {
+	members: Members;
+	status: "idle" | "pending" | "completed" | "failed";
+	error: null | undefined | string;
+}
+
 export const findMembers = createAsyncThunk(
 	"/members/findMembers",
 	async (userId: string) => {
@@ -18,11 +24,7 @@ export const findMembers = createAsyncThunk(
 	}
 );
 
-const initialState: {
-	members: Members;
-	status: "idle" | "pending" | "completed" | "failed";
-	error: null | undefined | string;
-} = {
+const initialState: MembersStateParam = {
 	members: [],
 	status: "idle",
 	error: null,
@@ -30,7 +32,7 @@ const initialState: {
 
 export const membersSlice = createSlice({
 	initialState,
-	name: "auth",
+	name: "members",
 	reducers: {},
 	extraReducers(builder) {
 		builder
