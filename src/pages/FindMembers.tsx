@@ -1,5 +1,4 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { formatDistance } from "date-fns";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { findMembers } from "../features/members/membersSlice";
@@ -11,7 +10,6 @@ import { sendFriendRequest } from "../features/friend-request/friendRequestSlice
 const FindMembers = () => {
 	const members = useAppSelector((state) => state.members.members);
 	const user = useAppSelector((state) => state.user.user);
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [membersToDisplay, setMembersToDisplay] = useState<Members>([]);
 	const [searchParam, setSearchParam] = useState<string>("");
@@ -22,10 +20,8 @@ const FindMembers = () => {
 		if (!Array.isArray(user) && user.id) {
 			dispatch(findMembers(user.userId));
 			setMembersToDisplay(members);
-		} else {
-			navigate("/");
 		}
-	}, [dispatch, navigate, user, members.length]);
+	}, [dispatch, user, members.length]);
 
 	const searchUsers = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value } = e.target;

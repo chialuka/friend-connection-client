@@ -1,8 +1,8 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addNewUser } from "../features/auth/authSlice";
-import { z } from "zod";
 
 interface LandingProps {
 	ref: React.Ref<HTMLLabelElement>;
@@ -10,7 +10,7 @@ interface LandingProps {
 
 const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
 	function LandingPage(props, ref) {
-    const navigate = useNavigate();
+		const navigate = useNavigate();
 		const user = useAppSelector((state) => state.user.user);
 		const dispatch = useAppDispatch();
 		const [name, setName] = useState("");
@@ -20,12 +20,17 @@ const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
 				return;
 			}
 			const { success } = z.string().email().safeParse(name);
-			const result = await dispatch(
+			await dispatch(
 				addNewUser({ [success ? "email" : "username"]: name })
 			);
-			console.log(result, "the result");
-      navigate("/members")
+
 		};
+
+		useEffect(() => {
+			if (!Array.isArray(user) && user.id) {
+				navigate("/friends");
+			}
+		}, [navigate, user]);
 		return (
 			<section className="flex flex-col lg:flex-row lg:gap-10 lg:justify-between m-5 md:m-10 lg:mx-20">
 				<section className="flex flex-col justify-evenly lg:w-1/2 py-10 gap-5 md:gap-10">
