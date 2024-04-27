@@ -17,6 +17,9 @@ dependencies:
   react-redux:
     specifier: ^9.1.1
     version: 9.1.1(@types/react@18.3.0)(react@18.3.0)(redux@5.0.1)
+  react-router-dom:
+    specifier: ^6.23.0
+    version: 6.23.0(react-dom@18.3.0)(react@18.3.0)
   zod:
     specifier: ^3.23.4
     version: 3.23.4
@@ -650,6 +653,11 @@ packages:
       redux: 5.0.1
       redux-thunk: 3.1.0(redux@5.0.1)
       reselect: 5.1.0
+    dev: false
+
+  /@remix-run/router@1.16.0:
+    resolution: {integrity: sha512-Quz1KOffeEf/zwkCBM3kBtH4ZoZ+pT3xIXBG4PPW/XFtDP7EGhtTiC2+gpL9GnR7+Qdet5Oa6cYSvwKYg6kN9Q==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@rollup/rollup-android-arm-eabi@4.16.4:
@@ -2088,6 +2096,29 @@ packages:
     resolution: {integrity: sha512-iZiRCtNGY3QYP3pYOSSBOvQmBpQTcJccr/VcK2blpJrpPTUDjeN51mxm5nsrkCzBwsbGUj+TN9q2oPz5E13FLg==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /react-router-dom@6.23.0(react-dom@18.3.0)(react@18.3.0):
+    resolution: {integrity: sha512-Q9YaSYvubwgbal2c9DJKfx6hTNoBp3iJDsl+Duva/DwxoJH+OTXkxGpql4iUK2sla/8z4RpjAm6EWx1qUDuopQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.16.0
+      react: 18.3.0
+      react-dom: 18.3.0(react@18.3.0)
+      react-router: 6.23.0(react@18.3.0)
+    dev: false
+
+  /react-router@6.23.0(react@18.3.0):
+    resolution: {integrity: sha512-wPMZ8S2TuPadH0sF5irFGjkNLIcRvOSaEe7v+JER8508dyJumm6XZB1u5kztlX0RVq6AzRVndzqcUh6sFIauzA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.16.0
+      react: 18.3.0
+    dev: false
 
   /react@18.3.0:
     resolution: {integrity: sha512-RPutkJftSAldDibyrjuku7q11d3oy6wKOyPe5K1HA/HwwrXcEqBdHsLypkC2FFYjP7bPUa6gbzSBhw4sY2JcDg==}
