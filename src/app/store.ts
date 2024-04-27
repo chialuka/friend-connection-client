@@ -4,9 +4,9 @@ import authReducer from "../features/auth/authSlice";
 
 export const store = configureStore({
 	reducer: {
-   user: authReducer,
-  },
+		user: authReducer,
+	},
 });
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

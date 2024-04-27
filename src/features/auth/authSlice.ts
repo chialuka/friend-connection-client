@@ -1,9 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const registeredUser = localStorage.getItem("user");
+const registeredUser = () => {
+	try {
+		const user = JSON.parse(localStorage.getItem("user") || "");
+		return user;
+	} catch (error) {
+		return [];
+	}
+};
 
 const initialState = {
-	user: registeredUser?.length ? JSON.parse(registeredUser) : [],
+	user: registeredUser(),
 	error: null,
 	status: "idle",
 };
@@ -32,7 +39,7 @@ const authSlice = createSlice({
 	reducers: {},
 	extraReducers(builder) {
 		builder.addCase(addNewUser.fulfilled, (state, action) => {
-			state.user.push(action.payload);
+			state.user = action.payload;
 			localStorage.setItem("user", JSON.stringify(action.payload));
 		});
 	},
