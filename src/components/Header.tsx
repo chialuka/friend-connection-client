@@ -10,6 +10,7 @@ const Header = ({ scrollToLogin }: { scrollToLogin: () => void }) => {
 			{user ? (
 				<div className="my-5 flex justify-between w-full">
 					<div className="flex gap-10">
+						<Link to="/posts">Posts</Link>
 						<Link to="/friends">Friends</Link>
 						<Link to="/members">Connect</Link>
 					</div>
