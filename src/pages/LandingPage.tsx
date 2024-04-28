@@ -16,7 +16,7 @@ const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
 		const [name, setName] = useState("");
 
 		const saveUser = async () => {
-			if (!Array.isArray(user) && user.id) {
+			if (user) {
 				return;
 			}
 			const { success } = z.string().email().safeParse(name);
@@ -27,10 +27,11 @@ const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
 		};
 
 		useEffect(() => {
-			if (!Array.isArray(user) && user.id) {
+			if (user) {
 				navigate("/friends");
 			}
 		}, [navigate, user]);
+    
 		return (
 			<section className="flex flex-col lg:flex-row lg:gap-10 lg:justify-between m-5 md:m-10 lg:mx-20">
 				<section className="flex flex-col justify-evenly lg:w-1/2 py-10 gap-5 md:gap-10">

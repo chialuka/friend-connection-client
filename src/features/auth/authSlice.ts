@@ -6,7 +6,7 @@ const registeredUser = () => {
 		const user: User = JSON.parse(localStorage.getItem("user") || "");
 		return user;
 	} catch (error) {
-		return [];
+		return null;
 	}
 };
 
