@@ -5,6 +5,8 @@ import {
 	Outlet,
 	redirect,
 } from "react-router-dom";
+import { io } from "socket.io-client";
+
 import Header from "./components/Header";
 import LandingPage from "./pages/LandingPage";
 import ErrorPage from "./components/ErrorPage";
@@ -12,6 +14,10 @@ import FindMembers from "./pages/FindMembers";
 import Friends from "./pages/Friends";
 import { useAppSelector } from "./app/hooks";
 import StatusPosts from "./pages/StatusPosts";
+
+const SOCKET_BASE_URL = import.meta.env.VITE_APP_SOCKET_API_URL || "";
+
+const socket = io(SOCKET_BASE_URL);
 
 const NavbarWrapper = ({ children }: { children: ReactNode }) => {
 	return <div>{children}</div>;
@@ -53,19 +59,19 @@ function App() {
 				},
 				{
 					path: "/members",
-					element: <FindMembers />,
+					element: <FindMembers socket={socket} />,
 					errorElement: <ErrorPage />,
 					loader: protectedPageLoader,
 				},
 				{
 					path: "/friends",
-					element: <Friends />,
+					element: <Friends socket={socket} />,
 					errorElement: <ErrorPage />,
 					loader: protectedPageLoader,
 				},
         {
           path: "/posts",
-          element: <StatusPosts />,
+          element: <StatusPosts socket={socket} />,
           errorElement: <ErrorPage />,
           loader: protectedPageLoader,
         }

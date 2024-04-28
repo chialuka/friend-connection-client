@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { formatDistance } from "date-fns";
-import { createPost, getPostsForUser } from "../features/posts/postsSlice";
+import { Socket } from "socket.io-client";
 
-const StatusPosts = () => {
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { createPost, getPostsForUser } from "../features/posts/postsSlice";
+import { getFriends } from "../features/friends/friendSlice";
+
+const StatusPosts = ({ socket }: { socket: Socket }) => {
 	const statusPosts = useAppSelector((state) => state.statusPosts.posts);
+	const friends = useAppSelector((state) => state.friends.friends);
 	const user = useAppSelector((state) => state.user.user);
 	const [post, setPost] = useState<string>("");
 	const opacity = post.length ? "" : " opacity-30";
@@ -14,15 +18,30 @@ const StatusPosts = () => {
 	const postStatus = () => {
 		if (user) {
 			dispatch(createPost({ userId: user.userId, post }));
-      setPost("");
+			setPost("");
+			socket.emit("STATUS_SENT", { userId: user.userId });
 		}
 	};
 
 	useEffect(() => {
 		if (user) {
 			dispatch(getPostsForUser({ userId: user?.userId }));
+			dispatch(getFriends({ userId: user.userId }));
 		}
 	}, [user, dispatch]);
+
+	useEffect(() => {
+		if (user) {
+			socket.on("STATUS_RECEIVED", ({ data }) => {
+				const posterIsFriend = friends.some(
+					(friend) => friend.userId === data.userId
+				);
+				if (posterIsFriend) {
+					dispatch(getPostsForUser({ userId: user.userId }));
+				}
+			});
+		}
+	}, [dispatch, friends, socket, user]);
 
 	return (
 		<section className="m-5 md:m-10 xl:m-20">
@@ -62,10 +81,14 @@ const StatusPosts = () => {
 										alt="generic image placeholder"
 										className="w-[50px] rounded-full"
 									/>
-                  <div>
-                    <p className="text-semibold">{post.user?.username || post.user?.email}</p>
-                    <p>{formatDistance(new Date(post.createdAt), new Date())}</p>
-                  </div>
+									<div>
+										<p className="text-semibold">
+											{post.user?.username || post.user?.email}
+										</p>
+										<p>
+											{formatDistance(new Date(post.createdAt), new Date())}
+										</p>
+									</div>
 								</div>
 								<p className="text-lg py-2">{post.post}</p>
 							</div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
@@ -16,7 +17,7 @@ import {
 	respondToFriendRequest,
 } from "../features/friend-request/friendRequestSlice";
 
-const Friends = () => {
+const Friends = ({ socket }: { socket: Socket }) => {
 	const user = useAppSelector((state) => state.user.user);
 	const friends = useAppSelector((state) => state.friends.friends);
 	const friendRequests = useAppSelector(
@@ -72,6 +73,16 @@ const Friends = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		socket.on("FRIEND_REQUEST_RECEIVED", ({ data }) => {
+			if (user) {
+				if (data.receiverId === user.userId) {
+					dispatch(getFriendRequests({ userId: user.userId }));
+				}
+			}
+		});
+	}, [dispatch, socket, user]);
 
 	return (
 		<section className="mx-5 md:mx-10 lg:mx-20 w-full">
