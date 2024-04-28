@@ -9,7 +9,7 @@ interface FriendsStateParams {
 
 export const getFriends = createAsyncThunk(
 	"friends/getFriends",
-	async (userId: string) => {
+	async ({ userId }: { userId: string }) => {
 		const response = await fetch(
 			`${import.meta.env.VITE_APP_SERVER_URL}/connections/${userId}`,
 			{

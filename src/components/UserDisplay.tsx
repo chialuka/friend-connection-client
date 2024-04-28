@@ -40,7 +40,7 @@ const UserDisplay: React.FC<UserDisplayProps> = ({
 		<>
 			{" "}
 			{membersToDisplay?.length ? (
-				<>
+				<div className="flex flex-col">
 					<div className="flex justify-end py-5 md:py-10 items-center gap-2">
 						<input
 							type="text"
@@ -72,7 +72,7 @@ const UserDisplay: React.FC<UserDisplayProps> = ({
 							</div>
 						))}
 					</section>
-				</>
+				</div>
 			) : parentComponent === "friends" ? (
 				<div className="flex flex-col items-center">
 					<p className="text-xl py-10">You do not have any friends yet</p>

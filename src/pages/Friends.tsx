@@ -11,19 +11,28 @@ import { User } from "../types/User";
 import { findMembers } from "../features/members/membersSlice";
 import { formatDistance } from "date-fns";
 import Modal from "../components/Modal";
+import {
+	getFriendRequests,
+	respondToFriendRequest,
+} from "../features/friend-request/friendRequestSlice";
 
 const Friends = () => {
 	const user = useAppSelector((state) => state.user.user);
 	const friends = useAppSelector((state) => state.friends.friends);
+	const friendRequests = useAppSelector(
+		(state) => state.friendRequests.requests
+	);
 	const dispatch = useAppDispatch();
 	const [friendsToDisplay, setFriendsToDisplay] = useState<Members>([]);
 	const [searchParam, setSearchParam] = useState<string>("");
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [modalData, setModalData] = useState<User>();
+	console.log(friendRequests);
 
 	useEffect(() => {
 		if (user) {
-			dispatch(getFriends(user.userId));
+			dispatch(getFriends({ userId: user.userId }));
+			dispatch(getFriendRequests({ userId: user.userId }));
 		}
 	}, [dispatch, user]);
 
@@ -47,19 +56,84 @@ const Friends = () => {
 		}
 	};
 
+	const replyRequest = async ({
+		status,
+		senderId,
+	}: {
+		status: "accepted" | "rejected";
+		senderId: string;
+	}) => {
+		if (user) {
+			const newReply = await dispatch(
+				respondToFriendRequest({ senderId, status, receiverId: user.userId })
+			);
+			if (newReply.payload) {
+				dispatch(getFriends({ userId: user.userId }));
+				dispatch(getFriendRequests({ userId: user.userId }));
+			}
+		}
+	};
+
 	return (
-		<section className="mx-5 md:mx-10 lg:mx-20">
-			<UserDisplay
-				members={friends}
-				setSearchParam={setSearchParam}
-				setMembersToDisplay={setFriendsToDisplay}
-				searchParam={searchParam}
-				membersToDisplay={friendsToDisplay}
-				setModalData={setModalData}
-				setShowModal={setShowModal}
-				showModal={showModal}
-				parentComponent="friends"
-			/>
+		<section className="mx-5 md:mx-10 lg:mx-20 w-full">
+			<section className="flex flex-col md:flex-row w-full">
+				<div className="md:w-[60%] mx-10">
+					<UserDisplay
+						members={friends}
+						setSearchParam={setSearchParam}
+						setMembersToDisplay={setFriendsToDisplay}
+						searchParam={searchParam}
+						membersToDisplay={friendsToDisplay}
+						setModalData={setModalData}
+						setShowModal={setShowModal}
+						showModal={showModal}
+						parentComponent="friends"
+					/>
+				</div>
+				<section className="flex flex-col justify-center items-center md:w-1/5 md:py-10">
+					<p className="text-xl md:2xl py-5 font-black">Friend Requests</p>
+					<div className="flex flex-wrap gap-5 justify-center">
+						{friendRequests?.length ? (
+							friendRequests.map((request, index) => (
+								<div key={index} className="flex flex-col gap-3 my-3">
+									<img
+										src="avatar.png"
+										alt="generic image placeholder"
+										className="w-[150px]"
+									/>
+									<p className="text-center pt-1">
+										{request.sender.username || request.sender.email}
+									</p>{" "}
+									<button
+										className="bg-[#0866ff] text-white p-2 rounded-md"
+										onClick={() =>
+											replyRequest({
+												status: "accepted",
+												senderId: request.senderId,
+											})
+										}
+									>
+										Accept
+									</button>
+									<button
+										className="bg-[#4B4C4F] text-white p-2 rounded-md"
+										onClick={() =>
+											replyRequest({
+												status: "rejected",
+												senderId: request.senderId,
+											})
+										}
+									>
+										Reject
+									</button>
+								</div>
+							))
+						) : (
+							<p>No Friend Requests!</p>
+						)}
+					</div>
+				</section>
+			</section>
 			{showModal && modalData && (
 				<Modal
 					showModal={showModal}
