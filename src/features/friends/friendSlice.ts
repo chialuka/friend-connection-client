@@ -77,7 +77,6 @@ export const friendSlice = createSlice({
 							friend.userId !== action.payload.userId &&
 							friend.userId !== action.payload.friendId
 					);
-          console.log(newFriends)
 					state.friends = newFriends;
 				} else {
 					state.friends = state.friends.concat(action.payload);

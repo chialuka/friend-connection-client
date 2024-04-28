@@ -61,7 +61,6 @@ const postsReducer = createSlice({
 	extraReducers(builder) {
 		builder
 			.addCase(createPost.fulfilled, (state, action) => {
-        console.log("what is state", state);
 				state.status = "completed";
 				state.posts = state.posts.concat(action.payload);
 			})
@@ -73,7 +72,6 @@ const postsReducer = createSlice({
 				state.error = action.error.message;
 			})
 			.addCase(getPostsForUser.fulfilled, (state, action) => {
-        console.log("are we here", action);
 				state.status = "completed";
 				state.posts = action.payload;
 			})

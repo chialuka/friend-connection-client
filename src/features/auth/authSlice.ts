@@ -17,7 +17,7 @@ const initialState = {
 };
 
 export const addNewUser = createAsyncThunk(
-	"posts/addNewPost",
+	"users/addNewUser",
 	async (data: { [key: string]: string }) => {
 		const response = await fetch(
 			`${import.meta.env.VITE_APP_SERVER_URL}/users`,
@@ -34,10 +34,16 @@ export const addNewUser = createAsyncThunk(
 	}
 );
 
+
 const authSlice = createSlice({
 	initialState,
 	name: "auth",
-	reducers: {},
+	reducers: {
+    logout(state) {
+      state.user = null;
+      localStorage.removeItem("user");
+    }
+  },
 	extraReducers(builder) {
 		builder.addCase(addNewUser.fulfilled, (state, action) => {
 			state.user = action.payload;
@@ -47,3 +53,5 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const { logout } = authSlice.actions;

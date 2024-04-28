@@ -5,7 +5,6 @@ import { createPost, getPostsForUser } from "../features/posts/postsSlice";
 
 const StatusPosts = () => {
 	const statusPosts = useAppSelector((state) => state.statusPosts.posts);
-  console.log(statusPosts, 'the stat posts');
 	const user = useAppSelector((state) => state.user.user);
 	const [post, setPost] = useState<string>("");
 	const opacity = post.length ? "" : " opacity-30";
