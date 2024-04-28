@@ -1,39 +1,43 @@
 import { useEffect, useState } from "react";
-import { formatDistance } from "date-fns";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { findMembers } from "../features/members/membersSlice";
+import {
+	changeFriendStatus,
+	getFriends,
+} from "../features/friends/friendSlice";
 import { Members } from "../types/Member";
-import { User } from "../types/User";
-import { sendFriendRequest } from "../features/friend-request/friendRequestSlice";
 import UserDisplay from "../components/UserDisplay";
+import { User } from "../types/User";
+import { findMembers } from "../features/members/membersSlice";
+import { formatDistance } from "date-fns";
 import Modal from "../components/Modal";
 
-const FindMembers = () => {
-	const members = useAppSelector((state) => state.members.members);
+const Friends = () => {
 	const user = useAppSelector((state) => state.user.user);
+	const friends = useAppSelector((state) => state.friends.friends);
 	const dispatch = useAppDispatch();
-	const [membersToDisplay, setMembersToDisplay] = useState<Members>([]);
+	const [friendsToDisplay, setFriendsToDisplay] = useState<Members>([]);
 	const [searchParam, setSearchParam] = useState<string>("");
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [modalData, setModalData] = useState<User>();
 
 	useEffect(() => {
 		if (user) {
-			dispatch(findMembers(user.userId));
+			dispatch(getFriends(user.userId));
 		}
 	}, [dispatch, user]);
 
-  useEffect(() => {
-    setMembersToDisplay(members);
-  }, [members])
+	useEffect(() => {
+		setFriendsToDisplay(friends);
+	}, [friends]);
 
-	const sendRequestToUser = async ({ receiverId }: { receiverId: string }) => {
+	const blockFriend = async ({ friendId }: { friendId: string }) => {
 		if (user) {
 			const newRequest = await dispatch(
-				sendFriendRequest({
-					senderId: user.userId,
-					receiverId,
+				changeFriendStatus({
+					userId: user.userId,
+					friendId,
+					status: "blocked",
 				})
 			);
 			if (newRequest.payload) {
@@ -44,18 +48,17 @@ const FindMembers = () => {
 	};
 
 	return (
-		<section className="mx-5 py-10 md:mx-10">
-			<h1 className="text-center text-3xl text-primary">Find Friends</h1>
+		<section className="mx-5 md:mx-10 lg:mx-20">
 			<UserDisplay
-        members={members}
-        setMembersToDisplay={setMembersToDisplay}
+				members={friends}
+				setSearchParam={setSearchParam}
+				setMembersToDisplay={setFriendsToDisplay}
 				searchParam={searchParam}
-        setSearchParam={setSearchParam}
-				membersToDisplay={membersToDisplay}
-				setShowModal={setShowModal}
+				membersToDisplay={friendsToDisplay}
 				setModalData={setModalData}
-        showModal={showModal}
-        parentComponent="members"
+				setShowModal={setShowModal}
+				showModal={showModal}
+				parentComponent="friends"
 			/>
 			{showModal && modalData && (
 				<Modal
@@ -79,12 +82,10 @@ const FindMembers = () => {
 							</p>
 						</div>
 						<button
-							className="bg-[#1d85fc33] p-3 rounded-sm w-[150px]"
-							onClick={() =>
-								sendRequestToUser({ receiverId: modalData.userId })
-							}
+							className="bg-[#e8080833] p-3 rounded-sm w-[150px]"
+							onClick={() => blockFriend({ friendId: modalData.userId })}
 						>
-							Add Friend
+							Block Friend
 						</button>
 					</section>
 				</Modal>
@@ -93,4 +94,4 @@ const FindMembers = () => {
 	);
 };
 
-export default FindMembers;
+export default Friends;

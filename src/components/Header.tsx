@@ -7,7 +7,7 @@ const Header = ({ scrollToLogin }: { scrollToLogin: () => void }) => {
 
 	return (
 		<nav className="flex px-5 md:px-10 lg:px-20 text-2xl border-b-[1px] border-b-black shadow-md bg-[#1d85fc33]">
-			{!Array.isArray(user) && user.id ? (
+			{user ? (
 				<div className="my-5 flex justify-between w-full">
 					<div className="flex gap-10">
 						<Link to="/friends">Friends</Link>
