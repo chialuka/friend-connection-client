@@ -11,6 +11,7 @@ import ErrorPage from "./components/ErrorPage";
 import FindMembers from "./pages/FindMembers";
 import Friends from "./pages/Friends";
 import { useAppSelector } from "./app/hooks";
+import StatusPosts from "./pages/StatusPosts";
 
 const NavbarWrapper = ({ children }: { children: ReactNode }) => {
 	return <div>{children}</div>;
@@ -62,6 +63,12 @@ function App() {
 					errorElement: <ErrorPage />,
 					loader: protectedPageLoader,
 				},
+        {
+          path: "/posts",
+          element: <StatusPosts />,
+          errorElement: <ErrorPage />,
+          loader: protectedPageLoader,
+        }
 			],
 		},
 	]);

@@ -71,8 +71,6 @@ export const friendSlice = createSlice({
 			})
 			.addCase(changeFriendStatus.fulfilled, (state, action) => {
 				state.status = "completed";
-				console.log(action.payload, "fire the action payload");
-        console.log(state.friends, "the initial friends");
 				if (action.payload.status === "blocked") {
           const newFriends = state.friends.filter(
 						(friend) =>

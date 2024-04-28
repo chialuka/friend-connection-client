@@ -27,7 +27,6 @@ const Friends = () => {
 	const [searchParam, setSearchParam] = useState<string>("");
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [modalData, setModalData] = useState<User>();
-	console.log(friendRequests);
 
 	useEffect(() => {
 		if (user) {

@@ -4,6 +4,7 @@ import authReducer from "../features/auth/authSlice";
 import membersReducer from "../features/members/membersSlice";
 import friendRequestReducer from "../features/friend-request/friendRequestSlice";
 import friendsReducer from "../features/friends/friendSlice";
+import statusPostReducer from "../features/posts/postsSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
 		members: membersReducer,
 		friendRequests: friendRequestReducer,
     friends: friendsReducer,
+    statusPosts: statusPostReducer,
 	},
 });
 
