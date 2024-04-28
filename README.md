@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+### Friends Connect
+You can access the app here- https://friends-connect.onrender.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Technologies Used
+- React
+- Redux
+- Vite
+- socket.io
+- pnpm
 
-Currently, two official plugins are available:
+### Running Locally
+- Clone the repo
+- Run `pnpm install` to install dependencies
+- Create a `.env` file and copy the contents of the `.env.example` file into it
+- You can change the values if you're running a server locally
+- Start the server by running `pnpm dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Features
+- Sign up or login by providing a username or email
+- View other users and connect by sending a friend request
+- View your friends. Block friends
+- Accept or reject friend requests
+- See status updates by your friends
+- Get real time updates when you receive a friend request or your friend makes a post
