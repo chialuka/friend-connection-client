@@ -2,19 +2,19 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/User";
 
 interface FriendRequest {
-  sender: User;
-  id: number;
-  senderId: string;
-  receiverId: string;
-  status: "pending" | "accepted" | "rejected";
-  createdAt: Date;
-  updatedAt: Date;
+	sender: User;
+	id: number;
+	senderId: string;
+	receiverId: string;
+	status: "pending" | "accepted" | "rejected";
+	createdAt: Date;
+	updatedAt: Date;
 }
 interface FriendRequestStateParams {
 	friendRequest: string | "pending" | "rejected" | "accepted";
 	status: "idle" | "pending" | "completed" | "failed";
 	error: null | undefined | string;
-  requests: Array<FriendRequest>,
+	requests: Array<FriendRequest>;
 }
 
 export const sendFriendRequest = createAsyncThunk(
@@ -43,8 +43,31 @@ export const getFriendRequests = createAsyncThunk(
 			`${import.meta.env.VITE_APP_SERVER_URL}/friend-requests/${userId}`
 		);
 
-    const result = await response.json();
-    return result.friendRequests;
+		const result = await response.json();
+		return result.friendRequests;
+	}
+);
+
+export const respondToFriendRequest = createAsyncThunk(
+	"/friendRequest/respondToRequest",
+	async (data: {
+		senderId: string;
+		receiverId: string;
+		status: "accepted" | "rejected";
+	}) => {
+		const response = await fetch(
+			`${import.meta.env.VITE_APP_SERVER_URL}/friend-requests/status`,
+			{
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+
+		const result = await response.json();
+		return result.updatedStatus;
 	}
 );
 
@@ -52,7 +75,7 @@ const initialState: FriendRequestStateParams = {
 	friendRequest: "",
 	status: "idle",
 	error: null,
-  requests: [],
+	requests: [],
 };
 
 export const friendRequestSlice = createSlice({
@@ -72,7 +95,7 @@ export const friendRequestSlice = createSlice({
 				state.status = "failed";
 				state.error = action.error.message;
 			})
-      .addCase(getFriendRequests.pending, (state) => {
+			.addCase(getFriendRequests.pending, (state) => {
 				state.status = "pending";
 			})
 			.addCase(getFriendRequests.fulfilled, (state, action) => {
