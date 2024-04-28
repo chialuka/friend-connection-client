@@ -9,7 +9,7 @@ interface LandingProps {
 }
 
 const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
-	function LandingPage(props, ref) {
+	function LandingPage(_, ref) {
 		const navigate = useNavigate();
 		const user = useAppSelector((state) => state.user.user);
 		const dispatch = useAppDispatch();
