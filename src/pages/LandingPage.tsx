@@ -16,9 +16,6 @@ const LandingPage = forwardRef<HTMLLabelElement, LandingProps>(
 		const [name, setName] = useState("");
 
 		const saveUser = async () => {
-			if (user) {
-				return;
-			}
 			const { success } = z.string().email().safeParse(name);
 			await dispatch(
 				addNewUser({ [success ? "email" : "username"]: name })

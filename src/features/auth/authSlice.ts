@@ -30,7 +30,7 @@ export const addNewUser = createAsyncThunk(
 			}
 		);
 		const result = await response.json();
-		return result.newUser;
+		return result.user;
 	}
 );
 
